@@ -1,0 +1,257 @@
+openapi: 3.0.0
+info:
+  title: Cart API
+  description: API for managing shopping carts and associated products.
+  version: 1.0.0
+paths:
+  /api/carts:
+    get:
+      summary: Get all carts
+      description: Retrieves a list of all shopping carts.
+      operationId: getAllCarts
+      responses:
+        '200':
+          description: Carts retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CartDto'
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+
+    post:
+      summary: Create a cart
+      description: Creates a new shopping cart with associated products.
+      operationId: createCart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductDto'
+      responses:
+        '201':
+          description: Cart created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartDto'
+        '400':
+          description: Invalid product data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+        '409':
+          description: Cart already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+
+  /api/carts/{id}:
+    get:
+      summary: Get a cart by ID
+      description: Retrieves a specific shopping cart using its ID.
+      operationId: getCart
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the cart to retrieve
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Cart found successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartDto'
+        '404':
+          description: Cart not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+
+    patch:
+      summary: Add products to a cart
+      description: Adds products to an existing shopping cart.
+      operationId: addProductsToCart
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the cart to update
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductDto'
+      responses:
+        '200':
+          description: Products added successfully to the cart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartDto'
+        '404':
+          description: Cart not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+
+    delete:
+      summary: Delete a cart by ID
+      description: Deletes an existing shopping cart using its ID.
+      operationId: deleteCartById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the cart to delete
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Cart deleted successfully
+        '404':
+          description: Cart not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+
+  /api/carts/{id}/products:
+    delete:
+      summary: Remove products from a cart
+      description: Removes specific products from a shopping cart.
+      operationId: removeProductsFromCart
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the shopping cart
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: product_ids
+          required: false
+          description: ID of products
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
+      responses:
+        '200':
+          description: Products removed successfully from the cart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartDto'
+        '404':
+          description: Cart not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+
+components:
+  schemas:
+    CartDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: false
+        products:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/ProductDto'
+            nullable: false
+        creationDate:
+          type: string
+          format: date-time
+        modificationDate:
+          type: string
+          format: date-time
+
+    ProductDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: false
+        description:
+          type: string
+          nullable: false
+
+        amount:
+          type: string
+          format: decimal
+          nullable: false
+
+
+    ErrorDto:
+      type: object
+      properties:
+        message:
+          type: string
+          nullable: false
+        error:
+          type: string
+          nullable: false
+
