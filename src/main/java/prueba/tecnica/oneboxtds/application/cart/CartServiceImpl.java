@@ -18,11 +18,9 @@ public class CartServiceImpl implements ICartService {
 
   Logger logger = LoggerFactory.getLogger(CartServiceImpl.class);
 
-  private static final int TIME_FOR_BEING_DELETED = 10;
-
   private static final String LOG_HEADER = "[APPLICATION][CART]";
 
-  private ICartRepository cartRepository;
+  private final ICartRepository cartRepository;
 
   public CartServiceImpl(ICartRepository cartRepository) {
     this.cartRepository = cartRepository;
@@ -48,7 +46,7 @@ public class CartServiceImpl implements ICartService {
   }
 
   @Override
-  public void deleteUnusedCart() {
+  public void deleteUnusedCart(int expiration) {
     logger.info("{} Delete unused carts", LOG_HEADER);
 
     List<Cart> cartList = new ArrayList<>(cartRepository.findAllCarts());
@@ -56,7 +54,7 @@ public class CartServiceImpl implements ICartService {
     for (Cart cart : cartList) {
       Duration duration = Duration.between(cart.getModificationDate(), LocalDateTime.now());
 
-      if (duration.toMinutes() > TIME_FOR_BEING_DELETED) {
+      if (duration.toMinutes() > expiration) {
         cartRepository.deleteCartById(cart.getId());
       }
     }

@@ -3,6 +3,7 @@ package prueba.tecnica.oneboxtds.application.scheduler;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,9 +18,14 @@ public class CartSchedulerTest {
 
   @Mock private ICartService cartService;
 
+  @BeforeEach
+  public void init() {
+    cartScheduler.setExpiration(10);
+  }
+
   @Test
   public void removeUnusedCarts_success() {
     cartScheduler.removeUnusedCarts();
-    verify(cartService, times(1)).deleteUnusedCart();
+    verify(cartService, times(1)).deleteUnusedCart(cartScheduler.getExpiration());
   }
 }

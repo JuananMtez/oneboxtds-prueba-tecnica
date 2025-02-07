@@ -6,13 +6,13 @@ import prueba.tecnica.oneboxtds.domain.model.Cart;
 
 public interface ICartRepository {
 
-  public List<Cart> findAllCarts();
+  List<Cart> findAllCarts();
 
-  public Cart findCartById(UUID cartId);
+  Cart findCartById(UUID cartId);
 
-  public Cart saveCart(Cart cart);
+  Cart saveCart(Cart cart);
 
-  public Cart updateCart(Cart cart);
+  Cart updateCart(Cart cart);
 
-  public void deleteCartById(UUID cartId);
+  void deleteCartById(UUID cartId);
 }

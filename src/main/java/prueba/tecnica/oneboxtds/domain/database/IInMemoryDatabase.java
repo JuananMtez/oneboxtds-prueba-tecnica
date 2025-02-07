@@ -6,13 +6,13 @@ import prueba.tecnica.oneboxtds.infrastructure.repository.cart.entity.CartEntity
 
 public interface IInMemoryDatabase {
 
-  public List<CartEntity> findAllCartEntities();
+  List<CartEntity> findAllCartEntities();
 
-  public CartEntity findCartEntityById(UUID cartId);
+  CartEntity findCartEntityById(UUID cartId);
 
-  public CartEntity saveCartEntity(CartEntity cart);
+  CartEntity saveCartEntity(CartEntity cart);
 
-  public CartEntity updateCartEntity(CartEntity cart);
+  CartEntity updateCartEntity(CartEntity cart);
 
-  public void deleteCartEntityById(UUID cartId);
+  void deleteCartEntityById(UUID cartId);
 }

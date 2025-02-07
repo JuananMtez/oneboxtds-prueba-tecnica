@@ -98,7 +98,7 @@ public class CartServiceImplTest {
 
     when(cartRepository.findAllCarts()).thenReturn(cartList);
 
-    cartService.deleteUnusedCart();
+    cartService.deleteUnusedCart(10);
 
     verify(cartRepository, times(1)).findAllCarts();
     verify(cartRepository, times(1)).deleteCartById(cartList.get(0).getId());
