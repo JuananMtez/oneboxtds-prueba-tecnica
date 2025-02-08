@@ -87,6 +87,20 @@ public class CartRepositoryImpl implements ICartRepository {
   }
 
   @Override
+  public void deleteAllUnusedCarts(int expiration) {
+    logger.info("Delete all unused carts with expiration {}", expiration);
+    try {
+      database.deleteAllUnusedCartEntities(expiration);
+    } catch (Exception e) {
+      logger.error(
+          "{} There was an error deleting all unused carts with expiration {}",
+          LOG_HEADER,
+          expiration);
+      throw e;
+    }
+  }
+
+  @Override
   public Cart findCartById(UUID cartId) {
     logger.info("{} Get cart by id: {}", LOG_HEADER, cartId);
     try {

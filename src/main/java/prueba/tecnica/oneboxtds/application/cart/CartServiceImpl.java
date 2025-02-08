@@ -1,8 +1,5 @@
 package prueba.tecnica.oneboxtds.application.cart;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -49,15 +46,7 @@ public class CartServiceImpl implements ICartService {
   public void deleteUnusedCart(int expiration) {
     logger.info("{} Delete unused carts", LOG_HEADER);
 
-    List<Cart> cartList = new ArrayList<>(cartRepository.findAllCarts());
-
-    for (Cart cart : cartList) {
-      Duration duration = Duration.between(cart.getModificationDate(), LocalDateTime.now());
-
-      if (duration.toMinutes() > expiration) {
-        cartRepository.deleteCartById(cart.getId());
-      }
-    }
+    cartRepository.deleteAllUnusedCarts(expiration);
   }
 
   @Override

@@ -159,4 +159,25 @@ public class InMemoryDatabaseImplTest {
 
     assertEquals("Cart not found in database", exception.getMessage());
   }
+
+  @Test
+  void deleteAllUnusedCartEntity_success() {
+    CartEntity cartEntityNew =
+        new CartEntity(
+            UUID.randomUUID(),
+            List.of(productEntity),
+            LocalDateTime.now().minusMinutes(20),
+            LocalDateTime.now().minusMinutes(20));
+
+    inMemoryDatabase.saveCartEntity(cartEntityNew);
+
+    inMemoryDatabase.deleteAllUnusedCartEntities(10);
+
+    CartNotFoundException exception =
+        assertThrows(
+            CartNotFoundException.class,
+            () -> inMemoryDatabase.findCartEntityById(cartEntityNew.getId()));
+
+    assertEquals("Cart not found in database", exception.getMessage());
+  }
 }

@@ -15,4 +15,6 @@ public interface ICartRepository {
   Cart updateCart(Cart cart);
 
   void deleteCartById(UUID cartId);
+
+  void deleteAllUnusedCarts(int expiration);
 }

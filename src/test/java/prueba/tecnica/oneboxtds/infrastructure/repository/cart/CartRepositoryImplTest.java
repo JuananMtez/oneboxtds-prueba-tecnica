@@ -235,6 +235,30 @@ public class CartRepositoryImplTest {
     verify(database, times(1)).deleteCartEntityById(id);
   }
 
+  @Test
+  void deleteAllUnusedCarts_Success() {
+    int expiration = 10;
+
+    database.deleteAllUnusedCartEntities(expiration);
+
+    verify(database, times(1)).deleteAllUnusedCartEntities(expiration);
+  }
+
+  @Test
+  void findAllUnusedCarts_ThrowsException() {
+
+    int expiration = 10;
+
+    doThrow(new RuntimeException()).when(database).deleteAllUnusedCartEntities(expiration);
+
+    RuntimeException exception =
+        assertThrows(
+            RuntimeException.class, () -> cartRepositoryImpl.deleteAllUnusedCarts(expiration));
+
+    assertNotNull(exception);
+    verify(database, times(1)).deleteAllUnusedCartEntities(expiration);
+  }
+
   private CartEntity createCartEntity() {
     return new CartEntity(UUID.randomUUID(), List.of(), LocalDateTime.now(), LocalDateTime.now());
   }

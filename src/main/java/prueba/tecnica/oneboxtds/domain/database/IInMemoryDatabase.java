@@ -14,5 +14,7 @@ public interface IInMemoryDatabase {
 
   CartEntity updateCartEntity(CartEntity cart);
 
+  void deleteAllUnusedCartEntities(int expirationTime);
+
   void deleteCartEntityById(UUID cartId);
 }

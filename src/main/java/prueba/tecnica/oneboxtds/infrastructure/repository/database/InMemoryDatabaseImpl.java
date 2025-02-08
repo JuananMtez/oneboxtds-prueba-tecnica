@@ -1,5 +1,6 @@
 package prueba.tecnica.oneboxtds.infrastructure.repository.database;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,6 +45,15 @@ public class InMemoryDatabaseImpl implements IInMemoryDatabase {
     }
 
     throw new CartNotFoundException("Cart not found in database");
+  }
+
+  @Override
+  public void deleteAllUnusedCartEntities(int expirationTime) {
+    LocalDateTime expirationThreshold = LocalDateTime.now().minusMinutes(expirationTime);
+
+    cartEntities
+        .entrySet()
+        .removeIf(entry -> entry.getValue().getModificationDate().isBefore(expirationThreshold));
   }
 
   @Override

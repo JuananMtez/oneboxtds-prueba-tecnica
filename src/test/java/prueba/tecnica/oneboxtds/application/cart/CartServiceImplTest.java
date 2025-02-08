@@ -94,14 +94,11 @@ public class CartServiceImplTest {
 
   @Test
   public void deleteUnusedCart_success() {
-    List<Cart> cartList = List.of(createCart(LocalDateTime.now().minusMinutes(20)));
+    int expiration = 10;
 
-    when(cartRepository.findAllCarts()).thenReturn(cartList);
+    cartService.deleteUnusedCart(expiration);
 
-    cartService.deleteUnusedCart(10);
-
-    verify(cartRepository, times(1)).findAllCarts();
-    verify(cartRepository, times(1)).deleteCartById(cartList.get(0).getId());
+    verify(cartRepository, times(1)).deleteAllUnusedCarts(expiration);
   }
 
   @Test
