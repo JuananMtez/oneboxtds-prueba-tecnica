@@ -9,12 +9,12 @@ This document provides the steps to clone, build, and run the application using 
 Clone the repository using Git:
 
 ```bash
-git clone https://github.com/JuananMtez/small-e-commerce.git
+git clone https://github.com/JuananMtez/small-ecommerce.git
 ```
 
 ### 2. Navigate to the project directory
 ```bash
-cd small-e-commerce
+cd small-ecommerce
 ```
 
 ### 3. Build the Docker image

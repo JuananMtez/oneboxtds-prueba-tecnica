@@ -1,7 +1,0 @@
-package prueba.tecnica.oneboxtds.domain.exception;
-
-public class CartAlreadyExistsException extends RuntimeException {
-  public CartAlreadyExistsException(String message) {
-    super(message);
-  }
-}
