@@ -96,7 +96,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDto'
 
-    patch:
+    post:
       summary: Add products to a cart
       description: Adds products to an existing shopping cart.
       operationId: addProductsToCart

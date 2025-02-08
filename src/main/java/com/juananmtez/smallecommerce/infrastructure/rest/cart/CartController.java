@@ -90,7 +90,7 @@ public class CartController {
         }
     }
 
-    @PatchMapping("/{id}/products")
+    @PostMapping("/{id}/products")
     public ResponseEntity<?> addProductsToCart(
             @PathVariable @NotNull UUID id,
             @RequestBody @NotNull List<@Valid ProductDto> products) {

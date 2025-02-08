@@ -17,24 +17,29 @@ git clone https://github.com/JuananMtez/small-ecommerce.git
 cd small-ecommerce
 ```
 
-### 3. Build the Docker image
+### 3. Build the code
+```bash
+./gradlew build
+```
+
+### 4. Build the Docker image
 ```bash
 docker build -t app .
 ```
 
-### 4. Run the application with Docker
+### 5. Run the application with Docker
 ```bash
 docker run -p 8080:8080 app
 ```
 
 
-### 5. Access Swagger UI
+### 6. Access Swagger UI
 [Swagger](http://localhost:8080/swagger-ui/index.html)
 
-### 6. Log in with the username and password
+### 7. Log in with the username and password
 
  - Username: user
  - Password: The password will be shown in the terminal when you start the Spring Boot application.
 
-### 7. Test the endpoints
+### 8. Test the endpoints
 Once logged in, you can start testing the available endpoints via the Swagger UI. You will find a list of all available endpoints and be able to interact with them.
